@@ -1,0 +1,64 @@
+{
+    "version": "2.0.0",
+
+    "tasks": [
+        // Start Debugging session
+        {
+            "label": "set-programs",
+            "type": "shell",
+            "command": "./set_programs.sh",
+            "group": "build",
+            "isBackground": false,
+            "options": {
+                "cwd": "${workspaceFolder}/.vscode/scripts/"
+            },
+        },
+        {
+            "label": "make-gdbinit",
+            "type": "shell",
+            "command": "./make_gdbinit.sh",
+            "group": "build",
+            "isBackground": false,
+            "dependsOn": "set-programs",
+            "options": {
+                "cwd": "${workspaceFolder}/.vscode/scripts/"
+            },
+        },
+        {
+            "label": "upload-debuggee",
+            "type": "shell",
+            "command": "./upload_debuggee.sh",
+            "group": "build",
+            "isBackground": false,
+            "dependsOn": "make-gdbinit",
+            "options": {
+                "cwd": "${workspaceFolder}/.vscode/scripts/"
+            },
+        },
+        {
+            "label": "start-debug-session",
+            "type": "shell",
+            "command": "./start_gdb_server.sh",
+            "group": "build",
+            "isBackground": false,
+            "dependsOn": "upload-debuggee",
+            "options": {
+                "cwd": "${workspaceFolder}/.vscode/scripts/"
+            },
+        },
+
+        // End Debugging session
+        {
+            "label": "clean-debug-session",
+            "type": "shell",
+            "command": "./clean_debug_session.sh",
+            "group": "build",
+            "isBackground": false,
+            "options": {
+                "cwd": "${workspaceFolder}/.vscode/scripts/"
+            },
+        },
+
+
+    ]
+}

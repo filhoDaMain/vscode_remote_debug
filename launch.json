@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+
+    "configurations": [
+        {
+            "name": "Launch (remote)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "${workspaceFolder}/.vscode/cross-debugger",
+            "miDebuggerArgs": "-x ${workspaceFolder}/.vscode/gdbinit",
+            "program": "${workspaceFolder}/.vscode/program",
+            "args": [],
+            "targetArchitecture": "arm",
+            "preLaunchTask": "start-debug-session",
+            "postDebugTask": "clean-debug-session",
+
+            "customLaunchSetupCommands": [
+                {
+                    "text": "connect",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "setup_session",
+                    "ignoreFailures": false
+                },
+            ],
+
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+            ],
+        }
+    ]
+}

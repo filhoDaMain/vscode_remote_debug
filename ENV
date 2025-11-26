@@ -1,0 +1,23 @@
+#
+# Debugges and remote target
+#
+export ENV_DEBUGGEE_APPLICATION=""
+export ENV_DEBUGGEE_CMDLINE_ARGS=""
+export ENV_APPLICATION_UPLOAD_PATH=""
+export ENV_DEBUGGEE_LIBS_PATH=""
+export ENV_LIBS_UPLOAD_PATH=""
+export ENV_TARGET_SSH=
+
+
+#
+# Default breakpoint when launching
+#
+export ENV_STOP_AT=""
+
+
+#
+# Debugger
+#
+export ENV_DEBUGGER=
+export ENV_DEBUGGER_SYSROOT=""
+export ENV_DEBUGGER_GDBSERVER_PORT=
