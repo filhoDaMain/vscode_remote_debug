@@ -1,0 +1,4 @@
+ENV
+gdbinit
+program
+cross-debugger
