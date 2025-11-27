@@ -10,9 +10,9 @@ GDBSERVER_CMD="\
     ${ENV_DEBUGGEE_CMDLINE_ARGS} \
 "
 
-echo "Executing on ${ENV_TARGET_SSH}"
+echo "Executing on ${ENV_TARGET_SSH_HOST}"
 echo "  $ ${GDBSERVER_CMD}"
 echo "Waiting..."
 
-ssh ${ENV_TARGET_SSH} -f ${GDBSERVER_CMD}
+ssh ${ENV_TARGET_SSH_HOST} -f ${GDBSERVER_CMD}
 sleep 1

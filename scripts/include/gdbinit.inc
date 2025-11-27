@@ -6,5 +6,5 @@ define setup_session
 end
 
 define connect
-    target remote ENV_TARGET_SSH:ENV_DEBUGGER_GDBSERVER_PORT
+    target remote ENV_TARGET_IPADDR:ENV_DEBUGGER_GDBSERVER_PORT
 end
