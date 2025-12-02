@@ -18,6 +18,11 @@ Template for setting up a VS Code workspace to launch and remote debug a C/C++ a
 :white_check_mark: Cleaned up target </br>
 ✓ closing debug session automatically removes debuggee executables and libraries </br>
 </br>
+
+**Example:**
+</br>
+Checkout [examples_vscode_remote_debug](https://github.com/filhoDaMain/examples_vscode_remote_debug) for an example using this template.
+</br>
 </br>
 
 
@@ -148,10 +153,3 @@ export ENV_DEBUGGER_SYSROOT="/opt/pokytos/1.0.0/sysroots/cortexa7t2hf-neon-vfpv4
 **ENV_DEBUGGER_GDBSERVER_PORT**
 - A port number which `gdbserver` will listen to for remote connections
 - Any available port number should work (`1234` is typically a good one)
-
-</br>
-</br>
-
-## Example
-
-Checkout [examples_vscode_remote_debug](https://github.com/filhoDaMain/examples_vscode_remote_debug) as an example using this template.
