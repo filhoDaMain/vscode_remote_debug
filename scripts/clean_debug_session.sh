@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source include/files.inc
 source ../ENV
 
 DEBUGGEE_APPLICATION="$(basename "${ENV_DEBUGGEE_APPLICATION}")"
