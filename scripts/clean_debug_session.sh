@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source include/get_app_path.inc
+source include/files.inc
 source ../ENV
 
 DEBUGGEE_APPLICATION="$(basename "${ENV_DEBUGGEE_APPLICATION}")"
