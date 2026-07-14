@@ -15,7 +15,7 @@ _priv_get_abs_path()
     echo "${WORKSPACE_BASEDIR}/$1"
 }
 
-get_app_path()
+get_file_abs_path()
 {
     APP="$1"
     _priv_is_abs_path ${APP}

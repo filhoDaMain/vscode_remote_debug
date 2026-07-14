@@ -3,11 +3,11 @@
 source include/files.inc
 source ../ENV
 
-DEBUGGEE_APPLICATION=$(get_app_path ${ENV_DEBUGGEE_APPLICATION})
+DEBUGGEE_APPLICATION=$(get_file_abs_path ${ENV_DEBUGGEE_APPLICATION})
 
 DEBUGGEE_LIBS=
 if [ -n "${ENV_DEBUGGEE_LIBS_PATH}" ]; then
-    DEBUGGEE_LIBS=$(get_app_path ${ENV_DEBUGGEE_LIBS_PATH})
+    DEBUGGEE_LIBS=$(get_file_abs_path ${ENV_DEBUGGEE_LIBS_PATH})
     scp ${DEBUGGEE_LIBS}/* ${ENV_TARGET_SSH_HOST}:${ENV_LIBS_UPLOAD_PATH}
 fi
 

@@ -8,7 +8,7 @@ GDBINIT="../gdbinit"
 
 DEBUGGEE_LIBS=
 if [ -n "${ENV_DEBUGGEE_LIBS_PATH}" ]; then
-    DEBUGGEE_LIBS=$(get_app_path ${ENV_DEBUGGEE_LIBS_PATH})
+    DEBUGGEE_LIBS=$(get_file_abs_path ${ENV_DEBUGGEE_LIBS_PATH})
 fi
 
 
