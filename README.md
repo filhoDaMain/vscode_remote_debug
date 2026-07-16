@@ -17,7 +17,7 @@ This workspace configuration offers:
 ## Usage
 
 **NOTE:** If not installed yet, install a VS Code debugging extension. </br>
-I use [Native Debug](https://marketplace.visualstudio.com/items?itemName=webfreak.debug) which works as a nice graphical frontend for gdb.
+I use [Native Debug](https://marketplace.visualstudio.com/items?itemName=webfreak.debug).
 </br>
 
 ### 1. Clone this repo into existing project as a .vscode directory
@@ -34,14 +34,14 @@ The [ENV](https://github.com/filhoDaMain/vscode_remote_debug/blob/main/ENV) file
 
 It specifies which application to debug, which remote target to use, the cross-debugger location, among other settings.
 
-The complete `ENV` variable documentation is at the [end](#env-variables-reference) of this page.
+The complete `.vscode/ENV` variables documentation is at the [end](#env-variables-reference) of this page.
 
 ### 3. Start debug
 In VS Code start the debug session:
 
 `Run and Debug` > `Start Debugging: Launch (remote)`
 
-If all goes well, you should see VS Code automatically connecting to the `gdbserver` running in target and be able to debug your application and libraries.
+If all goes well, you should see VS Code connecting to the `gdbserver`. Files upload and spawn of **gdbserver** are all done automatically.
 
 </br>
 
@@ -51,7 +51,8 @@ If all goes well, you should see VS Code automatically connecting to the `gdbser
 
 ```Text
 Local path to the executable application to remotely debug.
-The path can be specified both as an absolute path or as relative to project's base directory (one level above .vscode/)
+The path can be specified both as an absolute path or as relative to project's
+base directory (one level above .vscode/)
 
 E.g. as a relative path:
 export ENV_DEBUGGEE_APPLICATION=out/debug/bin/helloworld
@@ -62,7 +63,8 @@ export ENV_DEBUGGEE_APPLICATION=out/debug/bin/helloworld
 <summary>ENV_DEBUGGEE_CMDLINE_ARGS</summary>
 
 ```Text
-Command line arguments to pass to the executable application when it is launched in remote target.
+Command line arguments to pass to the executable application when it is 
+launched in remote target.
 ```
 </details>
 
@@ -70,7 +72,8 @@ Command line arguments to pass to the executable application when it is launched
 <summary>ENV_APPLICATION_UPLOAD_PATH</summary>
 
 ```Text
-Path (remote target) where to upload the executable application, specified as a 'scp' destination.
+Path (remote target) where to upload the executable application, specified as 
+a 'scp' destination.
 
 If the path does not exist in remote target it will be created on demand.
 
@@ -87,7 +90,8 @@ export ENV_APPLICATION_UPLOAD_PATH="/usr/bin/"
 
 ```Text
 Local path to a directory containing shared libraries to remotely debug.
-The path can be specified both as an absolute path or as relative to project's base directory (one level above .vscode/)
+The path can be specified both as an absolute path or as relative to project's 
+base directory (one level above .vscode/)
 
 Leave blank if no libraries are required to upload to remote target.
 
@@ -103,11 +107,13 @@ export ENV_DEBUGGEE_LIBS_PATH="out/debug/lib/"
 <summary>ENV_LIBS_UPLOAD_PATH</summary>
 
 ```Text
-Path (remote target) where to upload the libraries, specified as a 'scp' destination.
+Path (remote target) where to upload the libraries, specified as a 'scp' 
+destination.
 
 If the path does not exist in remote target it will be created on demand.
 
-If no path was specified for 'ENV_DEBUGGEE_LIBS_PATH', this variable will be ignored.
+If no path was specified for 'ENV_DEBUGGEE_LIBS_PATH', this variable will be 
+ignored.
 
 E.g. upload to ${HOME}/debug/lib/
 export ENV_APPLICATION_UPLOAD_PATH="debug/lib/"
@@ -133,7 +139,9 @@ HINT: setup ssh key login in target
 ```Text
 Remote target's hostname (/etc/hosts) or as an IP address.
 
-NOTE: I usually setup the ssh targets (~/.ssh/config) and hostnames (/etc/hosts) with the same name, so you will likely find in my examples 'ENV_TARGET_IPADDR' and 'ENV_TARGET_SSH_HOST' with same value.
+NOTE: I usually setup the ssh targets (~/.ssh/config) and hostnames 
+(/etc/hosts) with the same name, so you will likely find in my examples 
+'ENV_TARGET_IPADDR' and 'ENV_TARGET_SSH_HOST' with same value.
 ```
 </details>
 
