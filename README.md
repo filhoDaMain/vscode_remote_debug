@@ -1,155 +1,186 @@
-# VS Code workspace settings for remote debugging
-Template for setting up a VS Code workspace to launch and remote debug a C/C++ application
+# VS Code Workspace configuration for remote debugging
 
+After getting tired of always setting up VS Code for remote debugging sessions between projects, I decided to simplify the configuration in a portable way.
+
+This repo is meant to be cloned as **git subtree** into the project you want to remote debug as a `.vscode` directory.
+
+Checkout [examples_vscode_remote_debug](https://github.com/filhoDaMain/examples_vscode_remote_debug) for a complete example of how to include this repo into an existing project.
 </br>
 
-:white_check_mark: Easily portable </br>
-✓ add it to your local repo as a [git subtree](https://manpages.debian.org/testing/git-man/git-subtree.1.en.html) checked out as `.vscode/` </br>
-✓ **all required customizations** self contained in **one single file** [ENV](https://github.com/filhoDaMain/vscode_remote_debug/blob/main/ENV) </br>
-</br>
-
-:white_check_mark: One button click </br>
-✓ project executable and optional libraries uploaded to target </br>
-✓ remote TARGET's `gdbserver` launches executable with optional command line arguments </br>
-✓ local **gdb** connects to remote TARGET </br>
-✓ define optional entrypoint breakpoint </br>
-</br>
-
-:white_check_mark: Cleaned up target </br>
-✓ closing debug session automatically removes debuggee executables and libraries </br>
-</br>
-
-**Example:**
-</br>
-Checkout [examples_vscode_remote_debug](https://github.com/filhoDaMain/examples_vscode_remote_debug) for an example using this template.
-</br>
-</br>
+This workspace configuration offers:
+- **Portability**: only a single file needs to be changed between projects;
+- **Automated** upload of binary and libraries to debug into remote target;
+- **Start** of `gdbserver` in remote target with optional command line arguments;
+- **Session cleanup**: after debug, `gdbserver` is closed and uploaded files are removed.
 
 
-## Quick reference
-- If not installed yet, install a VS Code debugging extension. </br>
+## Usage
+
+**NOTE:** If not installed yet, install a VS Code debugging extension. </br>
 I use [Native Debug](https://marketplace.visualstudio.com/items?itemName=webfreak.debug) which works as a nice graphical frontend for gdb.
+</br>
 
-- Clone inside project's base directory (the one you want to remote debug) **this repo** as a subtree. Name it `.vscode/`
+### 1. Clone this repo into existing project as a .vscode directory
 > [!CAUTION]
 > Backup your existing `.vscode/` folder if you don't want to lose current settings
 
 ```bash
-git subtree add --prefix .vscode https://github.com/filhoDaMain/vscode_remote_debug main --squash
+# At the project's root directory
+$ git subtree add --prefix .vscode https://github.com/filhoDaMain/vscode_remote_debug main --squash
 ```
 
-- Edit contents of [ENV](https://github.com/filhoDaMain/vscode_remote_debug/blob/main/ENV)
+### 2. Set-up ENV file appropriately for the project to debug
+The [ENV](https://github.com/filhoDaMain/vscode_remote_debug/blob/main/ENV) file is **the only file you have to change** between projects.
 
-- Start debugging session by launching <**Launch (remote)**> configuration, from VS Code's **Run and Debug** menu
+It specifies which application to debug, which remote target to use, the cross-debugger location, among other settings.
+
+The complete `ENV` variable documentation is at the [end](#env-variables-reference) of this page.
+
+### 3. Start debug
+In VS Code start the debug session:
+
+`Run and Debug` > `Start Debugging: Launch (remote)`
+
+If all goes well, you should see VS Code automatically connecting to the `gdbserver` running in target and be able to debug your application and libraries.
+
 </br>
 
-## ENV Variables Reference
+## ENV variables reference
+<details>
+<summary>ENV_DEBUGGEE_APPLICATION</summary>
 
-**ENV_DEBUGGEE_APPLICATION**
+```Text
+Local path to the executable application to remotely debug.
+The path can be specified both as an absolute path or as relative to project's base directory (one level above .vscode/)
 
-- Path to the executable binary being debugged </br>
-- Can be specified as an absolute path or as relative to project's base directory (one level above .vscode/)
-
-Example:
-```bash
-# as a path relative to project's base directory /home/foo/hello/
-export ENV_DEBUGGEE_APPLICATION="out/debug/bin/helloworld"
-
-# assumed to be absolute if begins with "/"
-export ENV_DEBUGGEE_APPLICATION="/home/foo/hello/out/debug/bin/helloworld"
+E.g. as a relative path:
+export ENV_DEBUGGEE_APPLICATION=out/debug/bin/helloworld
 ```
-</br>
-</br>
+</details>
 
-**ENV_DEBUGGEE_CMDLINE_ARGS**
-- Optional command line arguments passed to `ENV_DEBUGGEE_APPLICATION` when launching
-- Leave empty if no command line arguments are needed
-</br></br></br>
+<details>
+<summary>ENV_DEBUGGEE_CMDLINE_ARGS</summary>
 
+```Text
+Command line arguments to pass to the executable application when it is launched in remote target.
+```
+</details>
 
-**ENV_APPLICATION_UPLOAD_PATH**
-- Path where to upload **ENV_DEBUGGEE_APPLICATION**
-- Specified as a **scp** destination
+<details>
+<summary>ENV_APPLICATION_UPLOAD_PATH</summary>
 
-Example:
-```bash
-# Upload to /home/<user>/bin/
-export ENV_APPLICATION_UPLOAD_PATH="bin/"
+```Text
+Path (remote target) where to upload the executable application, specified as a 'scp' destination.
 
-# Upload to /usr/bin/
+If the path does not exist in remote target it will be created on demand.
+
+E.g. upload to ${HOME}/debug/bin/
+export ENV_APPLICATION_UPLOAD_PATH="debug/bin/"
+
+E.g. upload to /usr/bin/
 export ENV_APPLICATION_UPLOAD_PATH="/usr/bin/"
 ```
-</br>
-</br>
+</details>
 
-**ENV_DEBUGGEE_LIBS_PATH**
-- Optional path to a directory containing libraries to upload
-- Leave `empty` if no libraries are needed
-- Like `ENV_DEBUGGEE_APPLICATION`, can be specified as an absolute path or as relative to project's base directory
+<details>
+<summary>ENV_DEBUGGEE_LIBS_PATH</summary>
 
-Example:
-```bash
-# Don't upload any optional files
+```Text
+Local path to a directory containing shared libraries to remotely debug.
+The path can be specified both as an absolute path or as relative to project's base directory (one level above .vscode/)
+
+Leave blank if no libraries are required to upload to remote target.
+
+E.g. no libraries to upload:
 export ENV_DEBUGGEE_LIBS_PATH=""
 
-# All files from this dir will be uploaded
+E.g. upload all libraries from this directory (relative path):
 export ENV_DEBUGGEE_LIBS_PATH="out/debug/lib/"
 ```
-</br>
-</br>
+</details>
 
-**ENV_LIBS_UPLOAD_PATH**
-- Path where to upload files from **ENV_DEBUGGEE_LIBS_PATH**
-- Specified as a **scp** destination
-</br></br></br>
+<details>
+<summary>ENV_LIBS_UPLOAD_PATH</summary>
 
-**ENV_TARGET_SSH_HOST**
-- A target host from ~/.ssh/config
+```Text
+Path (remote target) where to upload the libraries, specified as a 'scp' destination.
 
-*HINT*: setup ssh key login in target
-</br></br></br>
+If the path does not exist in remote target it will be created on demand.
 
-**ENV_TARGET_IPADDR**
-- Target's address specified as an IP Address or as hostname from /etc/hosts
+If no path was specified for 'ENV_DEBUGGEE_LIBS_PATH', this variable will be ignored.
 
-*NOTE*: I like to setup ~/.ssh/config hosts with the same name as the respective /etc/hosts hostname, so you will likely
-find in my examples `ENV_TARGET_SSH_HOST` and `ENV_TARGET_IPADDR` with the same value
-</br></br></br>
+E.g. upload to ${HOME}/debug/lib/
+export ENV_APPLICATION_UPLOAD_PATH="debug/lib/"
 
-**ENV_STOP_AT**
-- Optional GDB breakpoint
-- Useful to setup as an entrypoint breakpoint like `main` or libc's `_start`
+E.g. upload to /usr/lib/
+export ENV_APPLICATION_UPLOAD_PATH="/usr/lib/"
+```
+</details>
 
-Example:
-```bash
-# Stop at main()
+<details>
+<summary>ENV_TARGET_SSH_HOST</summary>
+
+```Text
+A target as specified in ~/.ssh/config
+
+HINT: setup ssh key login in target
+```
+</details>
+
+<details>
+<summary>ENV_TARGET_IPADDR</summary>
+
+```Text
+Remote target's hostname (/etc/hosts) or as an IP address.
+
+NOTE: I usually setup the ssh targets (~/.ssh/config) and hostnames (/etc/hosts) with the same name, so you will likely find in my examples 'ENV_TARGET_IPADDR' and 'ENV_TARGET_SSH_HOST' with same value.
+```
+</details>
+
+<details>
+<summary>ENV_STOP_AT</summary>
+
+```Text
+Optional breakpoint. Leave blank if you don't want gdb to stop at entry.
+
+E.g. Stop at libc's _start()
+export ENV_STOP_AT="_start"
+
+E.g. Stop at program's main()
 export ENV_STOP_AT="main"
 ```
-</br>
-</br>
+</details>
 
-**ENV_DEBUGGER**
-- Absolute path to a valid cross-debugger from HOST
+<details>
+<summary>ENV_DEBUGGER</summary>
 
-Example:
-```bash
-# GDB from a Yocto Toolchain
+```Text
+Absolute path to a cross-debugger.
+
+E.g.
 export ENV_DEBUGGER=/opt/pokytos/1.0.0/sysroots/aarch64-pokytossdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gdb
 ```
-</br>
-</br>
+</details>
 
-**ENV_DEBUGGER_SYSROOT**
-- Absolute path to a target sysroot
+<details>
+<summary>ENV_DEBUGGER_SYSROOT</summary>
 
-Example:
-```bash
-# Sysroot from a Yocto Toolchain
-export ENV_DEBUGGER_SYSROOT="/opt/pokytos/1.0.0/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi"
+```Text
+Absolute path to target's sysroot.
+
+E.g.
+export ENV_DEBUGGER_SYSROOT="/opt/pokytos/1.0.0/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi/"
 ```
-</br>
-</br>
+</details>
 
-**ENV_DEBUGGER_GDBSERVER_PORT**
-- A port number which `gdbserver` will listen to for remote connections
-- Any available port number should work (`1234` is typically a good one)
+<details>
+<summary>ENV_DEBUGGER_GDBSERVER_PORT</summary>
+
+```Text
+The portnumber gdbserver will listen to.
+Any available port number is fine.
+
+E.g.
+export ENV_DEBUGGER_GDBSERVER_PORT=1234
+```
+</details>
