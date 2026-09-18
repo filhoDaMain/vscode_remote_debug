@@ -39,7 +39,7 @@ In VS Code start the debug session:
 
 `Run and Debug` > `Start Debugging: Launch (remote)`
 
-On success, you should see specified application and libraries to debug being uploaded to remote targe and VS Code connecting to `gdbserver`.
+On success, you should see specified application and libraries to debug being uploaded to remote target and VS Code connecting to `gdbserver`.
 
 </br>
 
