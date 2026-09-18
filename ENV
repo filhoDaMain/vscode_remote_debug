@@ -27,3 +27,10 @@ export ENV_STOP_AT=""
 export ENV_DEBUGGER=
 export ENV_DEBUGGER_SYSROOT=""
 export ENV_DEBUGGER_GDBSERVER_PORT=
+
+
+#
+# Port forwarding
+# (leave empty if no ssh tunnel is used to connect to remote gdbserver)
+#
+export ENV_PORTFWD_LOCAL_PORT=
