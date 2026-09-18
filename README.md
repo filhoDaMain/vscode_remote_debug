@@ -192,3 +192,15 @@ E.g.
 export ENV_DEBUGGER_GDBSERVER_PORT=1234
 ```
 </details>
+
+<details>
+<summary>ENV_PORTFWD_LOCAL_PORT</summary>
+
+```Text
+Use this variable if an ssh tunnel is being used to connect to the remote
+gdbserver, otherwise you can leave it empty.
+
+E.g. Local port 2323 is forwarded to $ENV_DEBUGGER_GDBSERVER_PORT
+export ENV_PORTFWD_LOCAL_PORT=2323
+```
+</details>
