@@ -1,18 +1,16 @@
 # VS Code Workspace configuration for remote debugging
 
-After getting tired of always setting up VS Code for remote debugging sessions between projects, I decided to simplify the configuration in a portable way.
+This repo aims to be the **boilerplate** for **VS Code remote debugging** session configurations.
 
-This repo is meant to be cloned as **git subtree** into the project you want to remote debug as a `.vscode` directory.
-
-Checkout [examples_vscode_remote_debug](https://github.com/filhoDaMain/examples_vscode_remote_debug) for a complete example of how to include this repo into an existing project.
-</br>
+By cloning this repo as a **git subtree** into the project you want to remote debug as a `.vscode` directory, only the [ENV](https://github.com/filhoDaMain/vscode_remote_debug/blob/main/ENV) file needs to be adapted.
 
 This workspace configuration offers:
-- **Portability**: only a single file needs to be changed between projects;
 - **Automated** upload of binary and libraries to debug into remote target;
 - **Start** of `gdbserver` in remote target with optional command line arguments;
 - **Session cleanup**: after debug, `gdbserver` is closed and uploaded files are removed.
 
+
+For a complete setup example, check [examples_vscode_remote_debug](https://github.com/filhoDaMain/examples_vscode_remote_debug).
 
 ## Usage
 
@@ -41,7 +39,7 @@ In VS Code start the debug session:
 
 `Run and Debug` > `Start Debugging: Launch (remote)`
 
-If all goes well, you should see VS Code connecting to the `gdbserver`. Files upload and spawn of **gdbserver** are all done automatically.
+On success, you should see specified application and libraries to debug being uploaded to remote targe and VS Code connecting to `gdbserver`.
 
 </br>
 
